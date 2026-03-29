@@ -1,7 +1,7 @@
 import { Navigate } from "@tanstack/react-router"
 
 import type { ReactNode } from "react"
-import { useSession } from "#/routes/auth/_hooks/use-session"
+import { useSession } from "#/routes/_public/auth/_hooks/use-session"
 
 interface AuthGuardProps {
 	children: ReactNode

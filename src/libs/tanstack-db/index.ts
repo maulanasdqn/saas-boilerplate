@@ -1,8 +1,7 @@
 export {
   createCollection,
   localOnlyCollectionOptions,
-  useCollection,
-  useDb,
+  useLiveQuery,
 } from '@tanstack/react-db'
 export type { CollectionConfig } from '@tanstack/react-db'
-export { queryDbCollectionOptions } from '@tanstack/query-db-collection'
+export { queryCollectionOptions } from '@tanstack/query-db-collection'

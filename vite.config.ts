@@ -12,8 +12,8 @@ const config = defineConfig({
   plugins: [
     devtools(),
     paraglideVitePlugin({
-      project: './project.inlang',
-      outdir: './src/libs/paraglide',
+      project: './src/libs/paraglide/project.inlang',
+      outdir: './src/libs/paraglide/generated',
       strategy: ['url', 'baseLocale'],
     }),
     tsconfigPaths({ projects: ['./tsconfig.json'] }),

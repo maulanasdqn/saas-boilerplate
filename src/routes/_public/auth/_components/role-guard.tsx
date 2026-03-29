@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 
 import type { AppRole } from "#/server/auth/permissions"
-import { useSession } from "#/routes/auth/_hooks/use-session"
+import { useSession } from "#/routes/_public/auth/_hooks/use-session"
 
 interface RoleGuardProps {
 	children: ReactNode

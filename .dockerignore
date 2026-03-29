@@ -1,0 +1,9 @@
+.git
+.github
+node_modules
+.output
+.cache
+drizzle
+*.md
+.env*
+!.env.example

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { redirect, useRouter } from "@tanstack/react-router"
 import { z } from "zod"
 
@@ -7,32 +8,34 @@ import { Button } from "#/components/ui/button"
 import { Input } from "#/components/ui/input"
 import { Label } from "#/components/ui/label"
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+	name: z.string().min(1, "Name is required"),
 	email: z.string().email("Invalid email address"),
-	password: z.string().min(1, "Password is required"),
+	password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
-const validate = <K extends keyof typeof loginSchema.shape>(
+const validate = <K extends keyof typeof registerSchema.shape>(
 	field: K,
 	value: string,
 ) => {
-	const result = loginSchema.shape[field].safeParse(value)
+	const result = registerSchema.shape[field].safeParse(value)
 	return result.success ? undefined : result.error.issues[0]?.message
 }
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
 	const router = useRouter()
+	const [formError, setFormError] = useState<string | null>(null)
 
 	const form = useForm({
-		defaultValues: { email: "", password: "" },
+		defaultValues: { name: "", email: "", password: "" },
 		onSubmit: async ({ value }) => {
-			const { error } = await authClient.signIn.email(value)
+			const { error } = await authClient.signUp.email(value)
 			if (error) {
-				form.setErrorMap({ onSubmit: error.message ?? "Sign in failed" })
+				setFormError(error.message ?? "Registration failed")
 				return
 			}
 			await router.invalidate()
-			throw redirect({ to: "/dashboard" })
+			throw redirect({ to: "/" })
 		},
 	})
 
@@ -40,10 +43,10 @@ export const LoginForm = () => {
 		<div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
 			<div className="flex flex-col space-y-2 text-center">
 				<h1 className="text-2xl font-semibold tracking-tight">
-					Sign in to your account
+					Create an account
 				</h1>
 				<p className="text-sm text-muted-foreground">
-					Enter your email and password below
+					Enter your details below to create your account
 				</p>
 			</div>
 
@@ -54,6 +57,31 @@ export const LoginForm = () => {
 				}}
 				className="space-y-4"
 			>
+				<form.Field
+					name="name"
+					validators={{ onBlur: ({ value }) => validate("name", value) }}
+				>
+					{(field) => (
+						<div className="space-y-2">
+							<Label htmlFor="name">Name</Label>
+							<Input
+								id="name"
+								type="text"
+								placeholder="John Doe"
+								value={field.state.value}
+								onChange={(e) => field.handleChange(e.target.value)}
+								onBlur={field.handleBlur}
+								autoComplete="name"
+							/>
+							{field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
+								<p className="text-sm text-destructive">
+									{field.state.meta.errors[0]}
+								</p>
+							)}
+						</div>
+					)}
+				</form.Field>
+
 				<form.Field
 					name="email"
 					validators={{ onBlur: ({ value }) => validate("email", value) }}
@@ -93,7 +121,7 @@ export const LoginForm = () => {
 								value={field.state.value}
 								onChange={(e) => field.handleChange(e.target.value)}
 								onBlur={field.handleBlur}
-								autoComplete="current-password"
+								autoComplete="new-password"
 							/>
 							{field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
 								<p className="text-sm text-destructive">
@@ -104,30 +132,26 @@ export const LoginForm = () => {
 					)}
 				</form.Field>
 
-				<form.Subscribe selector={(s) => s.errorMap.onSubmit}>
-					{(error) =>
-						error ? (
-							<p className="text-sm text-destructive">{String(error)}</p>
-						) : null
-					}
-				</form.Subscribe>
+				{formError && (
+					<p className="text-sm text-destructive">{formError}</p>
+				)}
 
-				<form.Subscribe selector={(s) => ({ isSubmitting: s.isSubmitting, email: s.values.email, password: s.values.password })}>
-					{({ isSubmitting, email, password }) => (
-						<Button type="submit" className="w-full" disabled={!email || !password || isSubmitting}>
-							{isSubmitting ? "Signing in…" : "Sign in with Email"}
+				<form.Subscribe selector={(s) => ({ isSubmitting: s.isSubmitting, name: s.values.name, email: s.values.email, password: s.values.password })}>
+					{({ isSubmitting, name, email, password }) => (
+						<Button type="submit" className="w-full" disabled={!name || !email || !password || isSubmitting}>
+							{isSubmitting ? "Creating account…" : "Create account"}
 						</Button>
 					)}
 				</form.Subscribe>
 			</form>
 
 			<p className="px-8 text-center text-sm text-muted-foreground">
-				Don&apos;t have an account?{" "}
+				Already have an account?{" "}
 				<a
-					href="/auth/register"
+					href="/auth/login"
 					className="underline underline-offset-4 hover:text-primary"
 				>
-					Sign up
+					Sign in
 				</a>
 			</p>
 

@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { admin } from "better-auth/plugins/admin"
+import { organization } from "better-auth/plugins/organization"
 import { tanstackStartCookies } from "better-auth/tanstack-start"
 
 import { db } from "#/libs/drizzle"
@@ -18,6 +19,12 @@ export const auth = betterAuth({
 			adminRoles: ["super-admin", "admin"],
 			ac,
 			roles,
+		}),
+		organization({
+			allowUserToCreateOrganization: true,
+			organizationLimit: 5,
+			creatorRole: "owner",
+			membershipLimit: 50,
 		}),
 	],
 })

@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { SidebarInset, SidebarProvider } from "#/components/ui/sidebar"
 
-import { AppSidebar } from "./_components/app-sidebar"
-import { ChartAreaInteractive } from "./_components/chart-area-interactive"
-import { DataTable } from "./_components/data-table"
-import { SectionCards } from "./_components/section-cards"
-import { SiteHeader } from "./_components/site-header"
-import data from "./_data/data.json"
+import { AppSidebar } from "../_components/app-sidebar"
+import { ChartAreaInteractive } from "../_components/chart-area-interactive"
+import { DataTable } from "../_components/data-table"
+import { SectionCards } from "../_components/section-cards"
+import { SiteHeader } from "../_components/site-header"
+import data from "../_data/data.json"
 
-export const Route = createFileRoute("/_authenticated/dashboard")({
+export const Route = createFileRoute("/_authenticated/$orgSlug/dashboard")({
 	component: DashboardPage,
 })
 
