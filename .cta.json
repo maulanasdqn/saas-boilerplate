@@ -1,5 +1,5 @@
 {
-  "projectName": "tanstack-start-boilerplate",
+  "projectName": "saas-boilerplate",
   "mode": "file-router",
   "typescript": true,
   "packageManager": "pnpm",

@@ -29,7 +29,7 @@ const handler = new OpenAPIHandler(router, {
 			schemaConverters: [new ZodToJsonSchemaConverter()],
 			specGenerateOptions: {
 				info: {
-					title: "TanStack ORPC Playground",
+					title: "SaaS Boilerplate API",
 					version: "1.0.0",
 				},
 				security: [{ bearerAuth: [] }],

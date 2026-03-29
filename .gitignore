@@ -1,4 +1,5 @@
 node_modules
+.direnv
 src/libs/paraglide/generated
 .DS_Store
 dist

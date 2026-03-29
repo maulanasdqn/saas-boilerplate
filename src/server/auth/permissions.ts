@@ -50,6 +50,7 @@ export const memberRole = ac.newRole({
 	"activity-log": [],
 })
 
+// Org-level roles — used by oRPC middleware for per-org permission checks
 export const roles = {
 	owner: ownerRole,
 	admin: adminRole,
@@ -57,3 +58,11 @@ export const roles = {
 } as const
 
 export type AppRole = keyof typeof roles
+
+// Platform roles — maps user.role column values to permission objects
+// Required by better-auth's admin plugin (defaultRole: "user", adminRoles: ["super-admin", "admin"])
+export const platformRoles = {
+	"super-admin": ownerRole,
+	admin: adminRole,
+	user: memberRole,
+} as const

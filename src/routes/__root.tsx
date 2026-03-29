@@ -69,7 +69,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		meta: [
 			{ charSet: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
-			{ title: "TanStack Start Starter" },
+			{ title: "SaaS Boilerplate" },
 		],
 		links: [{ rel: "stylesheet", href: appCss }],
 	}),
